@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <table>
+            <tr>
+                <td>
+                    <img class="rounded-circle account-img" src="{{ image_file }}">
+                </td>
+                <td>
+                    <h3>{{user.username}}</h3>
+                    <h6>{{user.email}}</h6>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{{url_for('deleteUser',  id=user.id)}}"><input class="btn btn-danger" type="button" value="Delete"></a>
+                </td>
+                {% if user.category == 'user' %}
+                    <td>
+                        <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#suggestUsernameModal">Suggest Edit Username</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#editUsernameModal">Edit Username</button>
+                    </td>
+                {% endif %}
+                
+                {% if user.category == 'subadmin' %}
+                    <td>
+                        <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#editAdminModal">Edit Admin</button>
+                    </td>
+                {% endif %}
+                
+            </tr>
+        </table>
+
+    </div>
+    
+    <!-- editAdminModal -->
+    <div class="modal fade" id="editAdminModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Edit Admin</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-footer">
+            <form action="{{url_for('editSubAdmin', id = user.id)}}" method="POST">
+                <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+                <input type="text" class="form-control" name="newUsername" id="newUsername" value="{{user.username}}">
+                <input type="mail" class="form-control" name="newEmail" id="newEmail" value="{{user.email}}">
+                <input class="btn btn-danger" type="submit" value="Submit">
+            </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- suggestUsernameModal -->
+    <div class="modal fade" id="suggestUsernameModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Suggest Username</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-footer">
+            <form action="{{url_for('suggestUsername', id = user.id)}}" method="POST">
+                <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+                <input type="text" class="form-control" name="newUsername" id="newUsername" value="{{user.username}}">
+                <input class="btn btn-danger" type="submit" value="Submit">
+            </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- editAdminModal -->
+    <div class="modal fade" id="editUsernameModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Edit Username</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-footer">
+            <form action="{{url_for('editUsername', id = user.id)}}" method="POST">
+                <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+                <input type="text" class="form-control" name="newUsername" id="newUsername" value="{{user.username}}">
+                <input class="btn btn-danger" type="submit" value="Submit">
+            </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

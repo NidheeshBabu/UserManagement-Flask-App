@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="" enctype="multipart/form-data">
+
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Import File</legend>
+            <div class="form-group">
+                {{ form.csv_file.label() }}
+                {{ form.csv_file(class="form-control-file") }}
+                {% if form.csv_file.errors %}
+                    {% for error in form.csv_file.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info", value="Import") }}
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}

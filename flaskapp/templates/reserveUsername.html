@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Reserve Username</legend>
+
+
+
+                <div class="form-group">
+                    {{ form.reserved_for.label(class="form-control-label") }}
+
+                    {% if form.reserved_for.errors %}
+                        {{ form.reserved_for(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.reserved_for.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.reserved_for(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.linkedto.label(class="form-control-label") }}
+                    {{ form.linkedto(class="form-control form-control-lg")}}
+
+                   
+                </div>
+
+
+                <div class="form-group">
+                    {{ form.res_username.label(class="form-control-label") }}
+
+                    {% if form.res_username.errors %}
+                        {{ form.res_username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.res_username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.res_username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                
+                
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info", value="Reserve") }}
+            </div>
+            <br><br>
+            <hr>
+        <a href="{{url_for('upload_csv')}}"><input type="button" class="btn btn-outline-info" value="Import from CSV"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{url_for('viewReservedUsernames')}}"><input type="button" class="btn btn-outline-info" value="View Reserved Usernames"></a>
+        </form>
+    </div>
+   
+{% endblock content %}
