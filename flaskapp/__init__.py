@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 
-app.config['SECRET_KEY'] = '9705fe6c9c71626249a5c9d90ee171966bf889c3308a653f'
+app.config['SECRET_KEY'] = 'bdd6e371570eb1ff9c525ce63088ddae0b2f037a519fa8350aa777ee4c7812f32046318b7ff0732c8bd41e587da4684027b4'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sample.db'
 db = SQLAlchemy(app)

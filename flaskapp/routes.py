@@ -221,14 +221,14 @@ def unblockUser(id):
 
 @app.route("/reserveUsername", methods=['GET', 'POST'])
 @login_required
-def  reserveUsername():
+def reserveUsername():
     form = reserveForm()
     if current_user.category != 'admin':
         return redirect(url_for('home'))
     if request.method == 'GET':
         return render_template('reserveUsername.html', form=form, title='Reserve Username')
     if form.validate_on_submit():
-        res_uname = ReservedUsername(res_username=form.res_username.data, reserved_for=form.reserved_for.data, linkedto = form.linked_to.data)
+        res_uname = ReservedUsername(res_username=form.res_username.data, reserved_for=form.reserved_for.data, linkedto = form.linkedto.data)
         db.session.add(res_uname)
         db.session.commit()
         flash(f'Username reserved succesfully', 'success')
@@ -244,12 +244,13 @@ def upload_csv():
         csv_file = request.files['csv_file']
         csv_file = TextIOWrapper(csv_file, encoding='utf-8')
         csv_reader = csv.reader(csv_file, delimiter=',')
-        for row in csv_reader:
-            res_user = ReservedUsername(res_username=row[0], reserved_for=row[1], linkedto=row[2])
-            db.session.add(res_user)
-            db.session.commit()
-        flash(f'Successfully Imported Usernames','success')
-        return redirect(url_for('viewReservedUsernames'))
+        if form.validate_on_submit():
+            for row in csv_reader:
+                res_user = ReservedUsername(res_username=row[0], reserved_for=row[1], linkedto=row[2])
+                db.session.add(res_user)
+                db.session.commit()
+            flash(f'Successfully Imported Usernames','success')
+            return redirect(url_for('viewReservedUsernames'))
     return render_template('uploadFilecsv.html', form = form, title = 'Import Usernames')
 
 @app.route("/viewReservedUsernames")
@@ -312,4 +313,3 @@ def notificationView():
     user_id = current_user.id
     notifs = Notifications.query.filter_by(recipient_userid = user_id).order_by(Notifications.notif_date.desc()).all()
     return render_template('notificationView.html',notifs=notifs)
-    

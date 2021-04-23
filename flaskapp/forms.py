@@ -62,9 +62,12 @@ class reserveForm(FlaskForm):
 
     def validate_res_username(self, res_username):
         user = User.query.filter_by(username=res_username.data).first()
+        res = ReservedUsername.query.filter_by(res_username=res_username.data).first()
         if user:
             raise ValidationError('Username already taken, Try another one')
-
+        elif res:
+            raise ValidationError('Username already reserved, Try another one')
 class UploadcsvForm(FlaskForm):
-    csv_file = FileField('Upload CSV File', validators=[DataRequired(), FileAllowed(['csv'])])
+    csv_file = FileField('Upload CSV File', validators=[DataRequired(), FileAllowed(['csv',])])
     submit = SubmitField('Upload')
+
